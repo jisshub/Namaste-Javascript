@@ -115,10 +115,111 @@ in promises we were attaching callback function to the promise object.
 
 - Thus we have the control over program with us. `Promise` gives the guarantee that it will call the callback function when promise object is filled with data. Also we are not passing our code to some other functions.
 
-### Practical
+## Fetch Data from API
 
-<!-- time: 14:00 -->
 
+```js
+const github_url = 'https://api.github.com/users/jisshub'
+
+const data = fetch(github_url) 
+```
+
+- `fetch` returns a promise object.
+
+![](./images/image1.png)
+
+
+- From the above image, we know promise has 3 objects inside it.
+    
+    1. **Prototype**
+    2. **PromiseState**
+    3. **PromiseResult**
+
+- Right now promise is in a `pending` state because data not fetched yet. It takes some time to get the data from the API. This is why state is shown as `pending` at the start.
+- `PromiseResult` will store whatever data the `fetch` method returns. Initially it will be set as `undefined`.
+
+
+```js
+const github_url = 'https://api.github.com/users/jisshub'
+
+const data = fetch(github_url) 
+
+console.log(data)
+```
+- `PromiseState` will gives you the state that promise is currently in. Once data is fetched, `PromiseState` changes to `fullfilled` state.
+
+- `PromiseResult` will now returns a `Reponse` object. This contains the actual data. To extract the data, we have to convert it to JSON format.
+
+![](./images/image2.png)
+
+- Next we attach a callback function using `then` method into a `promise` to store the data into a user object.
+
+```js
+const github_url = 'https://api.github.com/users/jisshub'
+
+const data = fetch(github_url) 
+
+data.then((user)=>console.log(user))
+```
+
+### Other Features of Promise
+
+- The promise object can only be resolved once. either it is a success or failure.
+
+- State can be only 3 in a promise.
+    1. pending
+    2. fulfilled
+    3. rejected
+
+- Promise object are immutable meaning it cannot be edited/updated.
+
+
+### Promise - Interview Questions
+
+1. What is a Promise ?
+
+- A `promise` is an object representing the eventual completion of an `asynchronous` operation.
+
+        Object + eventual completion + async operation
+
+
+### Promise Chaining in JavaScript
+
+Promise chaining is used to handle the callback hell.
+
+```js
+const cart = ['shoes', 'shirts', 'jeans']
+
+createOrder(cart, function (orderId) {
+    proceedToPayment(orderId, function (paymentInfo) {
+        showOrderSummary(paymentInfo, function () {
+            updateWalletBalance(function () {
+            })
+        })
+    })
+});
+```
+
+Above code causes a callback hell.
+
+### Solution to Callback Hell
+
+```js
+createOrder(cart)
+    .then((orderId)=>{
+        return proceedToPayment(orderId)
+    })
+    .then((paymentInfo)=>{
+        return showOrderSummary(paymentInfo)
+    })
+    .then(()=>{
+        return updateWalletBalance()
+    })
+```
+
+Attach a callback function to the response we get from each promise using `then` method.
+
+This is called `Promise Chaining` which will get us out from `callback hell`.
 
 
 
