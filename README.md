@@ -1,5 +1,20 @@
 # Namaste-Javascript
 
+[Callbacks](#callbacks) 
+
+[1. Callback Hell](#1-callback-hell)
+
+[2. Inversion of Control](#2-inversion-of-control)
+
+[Promises](#promises)
+
+[Fetch Data from API](#fetch-data-from-api)
+
+[Promise - Interview Questions](#promise---interview-questions)
+
+[Promise Chaining in JavaScript](#promise-chaining-in-javascript)
+
+
 ## Callbacks
 
 - Callback are powerful way of handling asynchronous operations in javascript.
@@ -56,7 +71,6 @@ api.createOrder(cart, function () {
 ## 2. Inversion of Control
 
 Means we lose the control over our code. Whenever we pass our callback function inside another callback, we are giving the control of our piece of code to some other code and we dont know what happens behind the scenes. This is the problem we face when we use callbacks.
-
 
 
 ## Promises
@@ -174,7 +188,7 @@ data.then((user)=>console.log(user))
 - Promise object are immutable meaning it cannot be edited/updated.
 
 
-### Promise - Interview Questions
+## Promise - Interview Questions
 
 1. What is a Promise ?
 
@@ -183,7 +197,7 @@ data.then((user)=>console.log(user))
         Object + eventual completion + async operation
 
 
-### Promise Chaining in JavaScript
+## Promise Chaining in JavaScript
 
 Promise chaining is used to handle the callback hell.
 
@@ -222,8 +236,9 @@ Attach a callback function to the response we get from each promise using `then`
 This is called `Promise Chaining` which will get us out from `callback hell`.
 
 
+## Creating a Promise, Chaining & Error Handling 
 
-
+https://www.youtube.com/watch?v=U74BJcr8NeQ
 
 
 
