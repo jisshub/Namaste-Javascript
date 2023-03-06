@@ -240,7 +240,102 @@ This is called `Promise Chaining` which will get us out from `callback hell`.
 
 https://www.youtube.com/watch?v=U74BJcr8NeQ
 
+Consider an e-commerce application with cart items,
 
+```js
+const cart = ['shoes', 'pants', 'khurtas']
+```
+
+1. First step is to create an order. So we run a `createOrder` API. This API returns a promise object.
+
+```js
+const promise = createOrder(cart)
+```
+
+2. Later on, we attach a callback function to promise object which in turn calls `proceedToPayment` API.
+
+```js
+promise
+    .then((orderId)=>proceedToPayment(orderId))
+```
+
+3. Next create a function for `createOrder` that returns a promise.
+
+4. Inside this function, we create a new promise constructor using `new` and `Promise` keyword. Promise takes a function which has 2 parameters: `resolve` and `reject`. They are given by javascript to build the promises.
+
+5. Inside the promise constructor, we perform some functionalities like, create order, validating our cart, etc... If any of these fails, Promise is rejected or returns failed state.
+
+6. For example, consider a functionality to validate the cart. If the cart is not valid, we call `reject()` and throws some error in it. Here promise is `rejected`. 
+
+7. Consider a case if `orderId` is valid or not. If orderId is valid, we call `resolve()` and pass `orderId`. Here promise is `resolved`.
+
+8. Finally whatever the output is either success or failure, `promise` is returned at the end.
+
+**Example:**
+
+```js
+function createOrder() {
+    const pr = new Promise((resolve, reject)=>{
+        if(!validateCart(cart)) {
+            const err = new Error('Cart is not valid')
+            reject(err)
+        }  
+        
+        const orderId = '12345';
+        if (orderId) {
+            resolve(orderId)
+        }
+    })
+
+    return pr
+}
+```
+
+This how a promise is created.
+
+
+8. Run the full code.
+
+```js
+const cart = ['shoes', 'shirts', 'jeans']
+
+const promise = createOrder(cart)
+
+// attach callback to promise to get data
+promise
+    .then((orderId)=> {
+        console.log(orderId)
+    }
+)
+
+function validateCart(cart) {
+    return true;
+}
+
+// create a function for createOrder API to return a promise.
+function createOrder() {
+    const pr = new Promise((resolve, reject)=>{
+        if(!validateCart(cart)) {
+            const err = new Error('Cart is not valid')
+            reject(err)
+        }  
+        
+        const orderId = '12345';
+        if (orderId) {
+            resolve(orderId)
+        }
+    })
+
+    return pr
+}
+
+```
+
+
+
+
+
+<!-- time: 12:15 -->
 
 
 
