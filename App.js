@@ -6,8 +6,14 @@ createOrder(cart)
         return orderId
         }
     )
+    .catch((error) => {
+        console.log(error.message)
+    })
     .then((orderId)=>{
         return proceedToPayment(orderId)
+    })
+    .catch((error)=>{
+        console.log(error.message)
     })
     .then((paymentInfo)=>{
         console.log(paymentInfo)
@@ -16,9 +22,12 @@ createOrder(cart)
     .catch((error)=>{
         console.log(error.message)
     })
+    .then(()=>{
+        console.log('Execute this at last')
+    })
 
 function validateCart(cart) {
-    return true;
+    return false;
 }
 
 // create a function for createOrder API to return a promise.

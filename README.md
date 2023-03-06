@@ -16,6 +16,18 @@
 
 [Creating a Promise, Chaining & Error Handling](#creating-a-promise-chaining--error-handling)
 
+[Promise Resolve](#promise-resolve)
+
+[Promise Reject](#promise-reject)
+
+[Error Handling in Promise](#error-handling-in-promise)
+
+[Promise Chaining](#promise-chaining)
+
+[Advanced Error Handling](#advanced-error-handling)
+
+[Event Loop in JavaScript](#event-loop-in-javascript)
+
 ## Callbacks
 
 - Callback are powerful way of handling asynchronous operations in javascript.
@@ -387,7 +399,7 @@ function createOrder() {
     After 5 seconds, promise gets the data, callback function is called and logs the data.
 
 
-### Promise Rejection
+### Promise Reject
 
 ```js
 const promise = createOrder(cart)
@@ -533,7 +545,72 @@ function proceedToPayment(orderId) {
 
 ### Advanced Error Handling
 
-<!-- time: 26:30 -->
+```js
+createOrder(cart)
+    .then((orderId)=> {
+        console.log(orderId)
+        return orderId
+        }
+    )
+    .catch((error) => {
+        console.log(error.message)
+    })
+    .then((orderId)=>{
+        return proceedToPayment(orderId)
+    })
+    .then((paymentInfo)=>{
+        console.log(paymentInfo)
+        return paymentInfo
+    })
+    .catch((error)=>{
+        console.log(error.message)
+    })
+```
+
+- Here `then()` methods after the `catch()` calls definitely whatever happens.
+
+- Above we define `catch` method to catch the errors while creating order.
+
+- We can also define `catch` method after each `then` to catch the error that are speific to each `promise`.
+
+
+```js
+createOrder(cart)
+    .then((orderId)=> {
+        console.log(orderId)
+        return orderId
+        }
+    )
+    .catch((error) => {
+        console.log(error.message)
+    })
+    .then((orderId)=>{
+        return proceedToPayment(orderId)
+    })
+    .catch((error)=>{
+        console.log(error.message)
+    })
+    .then((paymentInfo)=>{
+        console.log(paymentInfo)
+        return paymentInfo
+    })
+    .catch((error)=>{
+        console.log(error.message)
+    })
+     .then(()=>{
+        console.log('Execute this at last')
+    })
+```
+- Above we set `catch` method on each step to catch the errors that comes after each promise.
+
+- `then` method at the end will be executed even though there are errors.
+
+This `promise chaining` helps the developers to get rid of `callback hell`.
+
+## Event Loop in JavaScript
+
+https://www.youtube.com/watch?v=8zKuNo4ay8E&list=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP&index=18
+
 
 
 
