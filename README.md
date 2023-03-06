@@ -1,7 +1,5 @@
 # Namaste-Javascript
 
-Playlist Link: https://www.youtube.com/playlist?list=PLlasXeu85E9eWOpw9jxHOQyGMRiBZ60aX
-
 [Callbacks](#callbacks) 
 
 [1. Callback Hell](#1-callback-hell)
@@ -16,6 +14,7 @@ Playlist Link: https://www.youtube.com/playlist?list=PLlasXeu85E9eWOpw9jxHOQyGMR
 
 [Promise Chaining in JavaScript](#promise-chaining-in-javascript)
 
+[Creating a Promise, Chaining & Error Handling](#creating-a-promise-chaining--error-handling)
 
 ## Callbacks
 
@@ -295,8 +294,7 @@ function createOrder() {
 
 This how a promise is created.
 
-
-8. Run the full code.
+### Promise Resolve
 
 ```js
 const cart = ['shoes', 'shirts', 'jeans']
@@ -330,14 +328,153 @@ function createOrder() {
 
     return pr
 }
-
 ```
 
+- Here the `promise` is resolved, data inside the resolved() goes to `callback` function attached to the promise object and prints them in console.
+
+### Summary
+
+1. `createOrder` function created a promise object.
+
+2. This `promise` was attached to a callback function using `then`.
+
+3. We define a `createOrder` function and returns a promise.
+
+4. Cart item is validated and everything was success, it resolved the promise.
+
+5. Once it is resolved, data passed to `resolve()` goes to the `callback` function attached to the promise and finally log the data in our console.
 
 
 
+    ```js
+    const promise = createOrder(cart)
+    console.log(promise)
+    promise
+        .then((orderId)=> {
+            console.log(orderId)
+        }
+    )
+
+    function validateCart(cart) {
+        return true;
+    }
+
+    // create a function for createOrder API to return a promise.
+    function createOrder() {
+        const pr = new Promise((resolve, reject)=>{
+            if(!validateCart(cart)) {
+                const err = new Error('Cart is not valid')
+                reject(err)
+            }  
+            
+            const orderId = '12345';
+            if (orderId) {
+                setTimeout(()=>{
+                    resolve(orderId)
+                }, 5000)
+            }
+        })
+
+        return pr
+    }
+    ```
+
+    Screenshot Below: 
+
+    ![](./images/image3.png)
+
+    Here the `Promise` is shown pending at start because we gave `resolve()` inside the `setTimeout` function and set a timer of 5 seconds. So `createOrder` API took 5 seconds to resolve. `Promise` is resolved only after 5 seconds, so the promise is in `pending` state.
+    After 5 seconds, promise gets the data, callback function is called and logs the data.
+
+
+### Promise Rejection
+
+```js
+const promise = createOrder(cart)
+console.log(promise)
+promise
+    .then((orderId)=> {
+        console.log(orderId)
+    }
+)
+
+function validateCart(cart) {
+    return false;
+}
+
+// create a function for createOrder API to return a promise.
+function createOrder() {
+    const pr = new Promise((resolve, reject)=>{
+        if(!validateCart(cart)) {
+            const err = new Error('Cart is not valid')
+                reject(err)
+        }  
+        
+        const orderId = '12345';
+        if (orderId) {
+            resolve(orderId)
+        }
+    })
+
+    return pr
+}
+```
+
+![](./images/image4.png)
+
+We need to handle the errors here. We should not let our browser show this kind of errors in our console.
+
+### Error Handling in Promise
+
+- If our promise fails or rejected, we attach a `catch()` method to our promise. 
+
+- `catch` method takes a callback which returns the error message.
+
+- `callback` inside the catch gets the error message we pass from `reject()` method and prints the same in our console.
+
+- Full code below:
+
+```js
+const cart = ['shoes', 'shirts', 'jeans']
+
+const promise = createOrder(cart)
+promise
+    .then((orderId)=> {
+        console.log(orderId)
+        }
+    )
+    .catch((error)=>{
+        console.log(error.message)
+    })
+
+function validateCart(cart) {
+    return false;
+}
+
+function createOrder() {
+    const pr = new Promise((resolve, reject)=>{
+        if(!validateCart(cart)) {
+            const err = new Error('Cart is not valid')
+                reject(err)
+        }  
+        
+        const orderId = '12345';
+        if (orderId) {
+            resolve(orderId)
+        }
+    })
+
+    return pr
+}
+```
+
+![](./images/image5.png)
+
+
+## Promise Chaining
 
 <!-- time: 12:15 -->
+
 
 
 
