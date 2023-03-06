@@ -1,5 +1,7 @@
 # Namaste-Javascript
 
+Playlist Link: https://www.youtube.com/playlist?list=PLlasXeu85E9eWOpw9jxHOQyGMRiBZ60aX
+
 [Callbacks](#callbacks) 
 
 [1. Callback Hell](#1-callback-hell)
