@@ -473,7 +473,67 @@ function createOrder() {
 
 ## Promise Chaining
 
-<!-- time: 12:15 -->
+- We chain the promises one after another to get the resolved data.
+
+- we chain `proceedToPayment` API with the response of `createOrder` API to finally get the payment status.
+
+```js
+const cart = ['shoes', 'shirts', 'jeans']
+
+createOrder(cart)
+    .then((orderId)=> {
+        console.log(orderId)
+        return orderId
+        }
+    )
+    // chain the next promise
+    .then((orderId)=>{
+        return proceedToPayment(orderId)
+    })
+    // chain the promise
+    .then((paymentInfo)=>{
+        console.log(paymentInfo)
+        return paymentInfo
+    })
+    .catch((error)=>{
+        console.log(error.message)
+    })
+
+function validateCart(cart) {
+    return true;
+}
+
+// create a function for createOrder API to return a promise.
+function createOrder() {
+    const pr = new Promise((resolve, reject)=>{
+        if(!validateCart(cart)) {
+            const err = new Error('Cart is not valid')
+                reject(err)
+        }  
+        
+        const orderId = '12345';
+        if (orderId) {
+            resolve(orderId)
+        }
+    })
+
+    return pr
+}
+
+
+// create a function for proceedToPayment API to return a promise.
+function proceedToPayment(orderId) {
+    return new Promise((resolve, reject) => {
+        resolve('Payment Successful')
+    })
+}
+```
+
+![](./images/image6.png)
+
+### Advanced Error Handling
+
+<!-- time: 26:30 -->
 
 
 

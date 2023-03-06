@@ -1,17 +1,24 @@
 const cart = ['shoes', 'shirts', 'jeans']
 
-const promise = createOrder(cart)
-promise
+createOrder(cart)
     .then((orderId)=> {
         console.log(orderId)
+        return orderId
         }
     )
+    .then((orderId)=>{
+        return proceedToPayment(orderId)
+    })
+    .then((paymentInfo)=>{
+        console.log(paymentInfo)
+        return paymentInfo
+    })
     .catch((error)=>{
         console.log(error.message)
     })
 
 function validateCart(cart) {
-    return false;
+    return true;
 }
 
 // create a function for createOrder API to return a promise.
@@ -31,3 +38,10 @@ function createOrder() {
     return pr
 }
 
+
+// create a function for proceedToPayment API to return a promise.
+function proceedToPayment(orderId) {
+    return new Promise((resolve, reject) => {
+        resolve('Payment Successful')
+    })
+}
