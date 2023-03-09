@@ -607,14 +607,33 @@ createOrder(cart)
 
 This `promise chaining` helps the developers to get rid of `callback hell`.
 
-## Event Loop in JavaScript
+# Event Loop in JavaScript
 
 https://www.youtube.com/watch?v=8zKuNo4ay8E&list=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP&index=18
 
 
+## Call Stack
+
+- The job of a callstack is to execute anything that comes inside it. Callstack wont wait for anything.
+
+- Anything comes inside the callstack, it is execute quickly. 
+
+- But how to execute a block of code after waiting for some time.
+
+- Callstack is inside the javascript engine.
+
+- This javascript engine is inside our browser.
+
+- So the browser has js engine in it, js engine has callstack and inside the call stack our program runs.
+
+![](./images/image7.png)
 
 
+## Web APIs
 
+![](./images/image8.png)
+
+- Web APIs are a part of our browser and not javascript.
 
 
 
