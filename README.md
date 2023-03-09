@@ -635,6 +635,17 @@ https://www.youtube.com/watch?v=8zKuNo4ay8E&list=PLlasXeu85E9cQ32gLCvAvr9vNaUccP
 
 - Web APIs are a part of our browser and not javascript.
 
+- Browser gives us access to js engine which having callstack.
+
+- Suppose we have to use a timer in our code, so browser gives us the access to `setTimeOut` method.
+
+- Suppose we want access to DOM tree, browser provides DOM APIs.
+
+```JS
+document.getELementById()
+```
+
+- 
 
 
 
