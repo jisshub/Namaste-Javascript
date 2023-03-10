@@ -641,11 +641,127 @@ https://www.youtube.com/watch?v=8zKuNo4ay8E&list=PLlasXeu85E9cQ32gLCvAvr9vNaUccP
 
 - Suppose we want access to DOM tree, browser provides DOM APIs.
 
-```JS
-document.getELementById()
+- Similary `fetch()` method allows user to fetch data from apis or servers.
+
+
+### Window Object
+
+- Window is a global object.
+
+- Using `window` object we can access these web apis in our javascript code. For example:,
+
+```js
+window.setTimeOut()
+window.localStorage()
 ```
 
-- 
+![](./images/image9.png)
+
+- Since window is a `global` object we dont have to them use them in our code. Instead we can acccess the web apis direclty. And these web apis have `global scope`.
+
+- Window object is given to our callstack.
+
+- So we can use these web apis in our javascript code.
+
+
+
+### Practical Case
+
+```js
+console.log('Console 1')
+
+setTimeout(()=>{
+    console.log('settimeout run')
+}, 5000)
+
+console.log('Console 2')
+```
+
+- Whenever we run a javascript code, a `Global Execution Context` is created and placed inside our `callstack`. The whole code is executed line by line.
+
+- Here `console.log()` calls the `console` web api and log the result.
+
+- This API is plugged through `window` to our code and executed inside `Global Execution Context (GEC)`.
+
+- Next one is `setTimeout` which calls the `settimeout` web api which gives us access to the timer feature of the browser.
+
+- `setTimeout` takes a callback function and a timer. It takes 5 seconds to execeute the callback fn.
+
+- In that time, following line of code is executed.
+
+- Callback function is executed when timer expires.
+
+- To execute the callback, same goes to call stack.
+
+- When call stack gets the callback function, it execute the function quickly.
+
+
+## Callback Queue & Event Loop
+
+![](./images/image10.png)
+
+- We know that callback function needs to go to callstack once timer expires. But it can't direclty goes to the call stack. 
+
+- Instead when timer expires, `callback function` moves to `callback queue`.
+
+- The job of the `event loop` is to check the callback queue and put the callback function inside the queue to the call stack.
+
+- So `Event Loop` acts like a gatekeeper meaning it checks inside the callback queue and if anything is there it pushes it to call stack.
+
+-  When timer expires, callback goes inside the callback queue. Event loop checks if somthing exist in the queue. it finds a callabck function and it pass that function to callstack. When callstack receives the callback function, it is immediately executed. 
+
+- This is how Event Loop works.
+
+### Example - 1
+
+```js
+console.log('Console 1')
+
+document.getElementById('btn')
+addEventListener("click", function cb() {
+    console.log("Callback")  
+})
+
+console.log('Console 2')
+```
+
+- Whenever we run a javascript code, a `global execution context` (GEC) is created and pushed inside the callstack. And code is executed line by line.
+
+    ```js
+    console.log('Console 1')
+    ```
+
+- When it see `console.log()` statement, it calls the `console` web api and log message in console.
+
+- Now the code moves to the next line,
+
+    ```js
+    document.getElementById('btn')
+    addEventListener("click", function cb() {
+        console.log("Callback")  
+    })
+    ```
+
+- Here we call DOM APIs. `addEventListener` takes time to execeute since it has a callback function. So we place them in web api. Then we move to next line of code.
+
+```js
+console.log('Console 2')
+```
+
+- Console api is called and log the result. 
+
+- Once all lines of code are executed, `GEC` pops out from call stack.
+
+- When the user clicks on button, callback method is pushed inside the `callback queue` and it waits there for its turn to get executed. 
+
+- **Event Loop** continuously monitors  `call stack` and `callback queue`. When they find that call stack is empty and then it checks the `callback queue`. When it find a callback function inside the queue, it takes this function and pushes into call stack which will be executed immediately.
+
+
+
+
+<!-- time: 25:00 -->
+
+
 
 
 
