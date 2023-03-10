@@ -1,8 +1,13 @@
-console.log('Console 1')
+console.log('Start')
 
-document.getElementById('btn')
-addEventListener("click", function cb() {
-    console.log("Callback")  
-})
+setTimeout(()=>{
+    console.log('settimeout runs')    
+}, 5000)
 
-console.log('Console 2')
+
+fetch('https://jsonplaceholder.typicode.com/todos')
+    .then((data)=>{
+        console.log(data)
+    });
+
+console.log('End')

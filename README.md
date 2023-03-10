@@ -754,7 +754,109 @@ console.log('Console 2')
 
 - When the user clicks on button, callback method is pushed inside the `callback queue` and it waits there for its turn to get executed. 
 
-- **Event Loop** continuously monitors  `call stack` and `callback queue`. When they find that call stack is empty and then it checks the `callback queue`. When it find a callback function inside the queue, it takes this function and pushes into call stack which will be executed immediately.
+- **Event Loop** continuously monitors  `call stack` and `callback queue`. When they find that call stack is empty and then it checks the `callback queue`. When it finds a callback function inside the queue, it takes this function and pushes into call stack which will be executed immediately.
+
+
+## Why need callback queue ?
+
+Suppose user clicks on a button continuosly which is having an even listener attached to it. In that case this `callback function` will passed into queue many times. So that much number of `callback functions` were waiting to be executed in the call stack.
+
+![](./images/image11.png)
+
+
+`Event Loop` will continously checks whether the call stack is empty or not. If a callback function is found in queue, it is taken from queue and passed to call stack to execute. Gradually `event loop` takes all the callback function and passed to queue which will be executed one by one.
+
+![](./images/image12.png)
+
+All the `callback functions` must be queued inside the `callback queue`.
+
+
+## How the fetch method works ?
+
+```js
+console.log('Start')
+
+setTimeout(()=>{
+    console.log('settimeout runs')    
+}, 5000)
+
+
+fetch('https://jsonplaceholder.typicode.com/todos')
+    .then((data)=>{
+        console.log(data)
+    });
+
+console.log('End')
+```
+
+Whenever we runs a javascript code, a global execution context is created and pushed into a callstack. And the code is executed line by line.
+
+
+```js
+console.log('Start')
+```
+
+Here, console api is called and result is logged in our console.
+
+Next we move to next line of code:
+
+```js
+setTimeout(()=>{
+    console.log('settimeout runs')    
+}, 5000)
+```
+
+setTimeOut api is called, it takes 5 seconds to execute the callback function. So we place the callback into web api while timer runs in background. Then movie to next line of code.
+
+```js
+fetch('https://jsonplaceholder.typicode.com/todos')
+    .then((data)=>{
+        console.log(data)
+});
+```
+
+`fetch` api is called, `then` method takes time to resolve the promise and console the data. We move the callback into `web api` environment. Then move to next line of code.
+
+```js
+console.log('End')
+```
+
+Here, finally `console api` is called and message is logged.
+
+Now what left is 2 callback functions sitting in `web api` environment. One callback is waiting for timer to expire and the other waits for data to be fetched from API.
+
+Once data is fetched, callback function is ready to be executed. This callback function will goes to `micro task queue`.
+
+### Micro Task Queue: 
+Micro task queue has higher prority in terms of execution compared to `callback queue`. What ever comes inside in micro task queue will be executed before the ones in `callback queue.`
+
+![](./images/image13.png)
+
+`Even Loop` looks inside call stack and finds it empty. Then it checks inside micro task quueue. Then it takes those callbacks and pass to callstack which in turn will be executed.
+
+Once timer expires `callback function` moves to `callback queue` for execution.
+
+But it is executed after the execution of callback inside the micro task queue because of higher prority.
+
+Finally callback of `settimeout` function  is executed and log the data.
+
+![](./images/image14.png)
+
+
+## What are Micro Task Queue in Javascript ?
+
+- All the `callback` functions which comes through the `promises` will go inside this `micro task queue`.
+
+- `Mutation Observer` also goes into `micro task queue`
+
+- All other `callbacks` such as callbacks from `setTimeout, DOM APIS` ... goes into `callback queue`
+
+- `Micro Task Queue` has given more priority over `callback queue`
+
+- `Event Loop` only check inside `callback queue` once all the task inside `micro task queue` is completed.
+
+![](./images/image15.png)
+
 
 
 
